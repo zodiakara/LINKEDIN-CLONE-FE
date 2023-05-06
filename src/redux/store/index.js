@@ -4,7 +4,6 @@ import { persistReducer, persistStore } from "redux-persist";
 import profilesReducer from "../reducers/profilesReducer";
 import experienceReducer from "../reducers/experienceReducer";
 import searchReducer from "../reducers/searchReducer";
-import postsReducer from "../reducers/postsReducer";
 import authSlice from "../reducers/auth/authSlice";
 import expSlice from "../reducers/userExp.js/expSlice";
 import postsSlice from "../reducers/posts.js/postsSlice";

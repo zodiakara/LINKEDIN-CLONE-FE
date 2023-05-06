@@ -2,10 +2,11 @@ import "./HomePage.css";
 import { useDispatch, useSelector } from "react-redux";
 import { CHANGE_SHOW_POST_MODAL } from "../../redux/actions/actions";
 import PostModal from "../PostModal";
+import { postActions } from "../../redux/reducers/posts.js/postsSlice";
 
 const WritePost = () => {
   const currentUser = useSelector((state) => state.auth.userInfo);
-  const showPostModal = useSelector((state) => state.posts.showPostModal);
+  const showPostModal = useSelector((state) => state.posts.postModal);
   const dispatch = useDispatch();
 
   return (
@@ -13,10 +14,7 @@ const WritePost = () => {
       <PostModal
         show={showPostModal}
         onHide={() => {
-          dispatch({
-            type: CHANGE_SHOW_POST_MODAL,
-            payload: !showPostModal,
-          });
+          dispatch(postActions.hidePostModal());
         }}
       />
       <div className="d-flex align-items-center">
@@ -28,10 +26,7 @@ const WritePost = () => {
         <button
           className="userPostBtn m-2, p-2 w-100 mx-3"
           onClick={() => {
-            dispatch({
-              type: CHANGE_SHOW_POST_MODAL,
-              payload: !showPostModal,
-            });
+            dispatch(postActions.showPostModal());
           }}
         >
           <span className="justify-content-flex-start ml-2 fs-14">
@@ -55,7 +50,7 @@ const WritePost = () => {
             height={24}
           >
             <path d="M19 4H5a3 3 0 00-3 3v10a3 3 0 003 3h14a3 3 0 003-3V7a3 3 0 00-3-3zm1 13a1 1 0 01-.29.71L16 14l-2 2-6-6-4 4V7a1 1 0 011-1h14a1 1 0 011 1zm-2-7a2 2 0 11-2-2 2 2 0 012 2z" />
-          </svg>
+          </svg>{" "}
           <span className="share-box-btn-text">Photo</span>
         </button>
         <button

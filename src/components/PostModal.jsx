@@ -1,6 +1,5 @@
 import { Button, Form, Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { CHANGE_SHOW_POST_MODAL } from "../redux/actions/actions";
 import GreyBorderBtn from "./GreyBorderBtn";
 import { SlEmotsmile } from "react-icons/sl";
 import { HiOutlinePhoto, HiDocument } from "react-icons/hi2";
@@ -8,11 +7,33 @@ import { IoLogoYoutube } from "react-icons/io";
 import { BsBriefcaseFill, BsThreeDots } from "react-icons/bs";
 import { FaSun } from "react-icons/fa";
 import { RiBarChartFill } from "react-icons/ri";
+import { useState } from "react";
+import { addNewPost, getAllPosts } from "../redux/reducers/posts.js/posts";
 
 const PostModal = (props) => {
-  const showPostModal = useSelector((state) => state.posts.showPostModal);
   const currentUser = useSelector((state) => state.auth.userInfo);
+  const postImage = useSelector((state) => state.posts.postImage);
+  const [text, setText] = useState("");
   const dispatch = useDispatch();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const newPost = {
+      text: text,
+      user: currentUser._id,
+    };
+    if (postImage) {
+      newPost.image = postImage;
+    }
+    dispatch(addNewPost(newPost)).then(() => {
+      dispatch(getAllPosts());
+    });
+    setText("");
+    setTimeout(() => {
+      props.onHide();
+    }, 1000);
+  };
+
   const icon = (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -62,20 +83,18 @@ const PostModal = (props) => {
             <GreyBorderBtn iconTwo={iconTwo} icon={icon} content="Anyone" />
           </div>
         </div>
-        <Form
-          className="mt-3"
-          onSubmit={(e) => {
-            e.preventDefault();
-          }}
-        >
+        <Form className="mt-3" onSubmit={handleSubmit}>
           <Form.Group controlId="exampleForm.ControlInput1">
             <Form.Control
-              value=""
+              value={text}
               name="postText"
               as="textarea"
               rows={3}
               placeholder="What do you want to talk about?"
               className="post-text"
+              onChange={(e) => {
+                setText(e.target.value);
+              }}
             />
           </Form.Group>
         </Form>
@@ -85,7 +104,10 @@ const PostModal = (props) => {
       </Modal.Body>
       <Modal.Footer>
         <button className="experience-buttons">
-          <HiOutlinePhoto className="experience-buttons-icon" />
+          <label for="customFile2">
+            <HiOutlinePhoto className="experience-buttons-icon" />
+          </label>
+          <input type="file" class="form-control d-none" id="customFile2" />
         </button>
         <button className="experience-buttons">
           <IoLogoYoutube className="experience-buttons-icon" />
@@ -105,7 +127,9 @@ const PostModal = (props) => {
         <button className="experience-buttons">
           <BsThreeDots className="experience-buttons-icon" />
         </button>
-        <Button variant="primary">Post</Button>
+        <Button type="submit" onClick={handleSubmit} variant="primary">
+          Post
+        </Button>
       </Modal.Footer>
     </Modal>
   );

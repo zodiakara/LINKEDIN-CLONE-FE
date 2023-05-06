@@ -5,10 +5,12 @@ import ProfileAd from "./ProfileAd";
 import ProfilesLi from "./ProfilesLi";
 import CoursesLi from "./CoursesLi";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ADD_ALL_PROFILES, fetchProfile } from "../redux/actions/actions";
+import { getAllUsers } from "../redux/reducers/users/users";
 
 const RightSideBar = () => {
+  const [allProfiles, setAllProfiles] = useState([]);
   const messageIcon = (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -40,23 +42,13 @@ const RightSideBar = () => {
   );
 
   const dispatch = useDispatch();
-  const endPoint = "https://striveschool-api.herokuapp.com/api/profile/";
-  const accessToken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Mzk3MGQxOGM5NmRmYjAwMTUyMWE1YzkiLCJpYXQiOjE2NzA4NDM2NzIsImV4cCI6MTY3MjA1MzI3Mn0.0dUkULTnbH-D7rmu6VpWb4OqjIwfSynoJ3nmyP2FbL4";
-  const options = {
-    method: "GET",
-    headers: {
-      Authorization: "Bearer " + accessToken,
-    },
-  };
-  const id = "";
-  const action = ADD_ALL_PROFILES;
 
   useEffect(() => {
-    dispatch(fetchProfile(endPoint, options, id, action));
-  }, []);
+    setAllProfiles(dispatch(getAllUsers()));
+    console.log(allProfiles);
+  }, [dispatch]);
 
-  const allProfiles = useSelector((state) => state.profiles.allProfiles);
+  // const allProfiles = useSelector((state) => state.profiles.allProfiles);
 
   return (
     <Col className="d-flex flex-column align-items-end ">
@@ -67,9 +59,16 @@ const RightSideBar = () => {
       <ProfileAd />
       <ul className="sidebarUL profilesUL mb-0">
         <div className="fw-bold pt-3 fs-20">People also viewed</div>
-        {allProfiles.slice(0, 5).map((profile) => (
-          <ProfilesLi icon={messageIcon} profile={profile} key={profile._id} />
-        ))}
+        {allProfiles &&
+          allProfiles
+            .slice(0, 5)
+            .map((profile) => (
+              <ProfilesLi
+                icon={messageIcon}
+                profile={profile}
+                key={profile._id}
+              />
+            ))}
       </ul>
       <ActionLi text="Show More" icon={dropdownIcon} />
       <ul className="sidebarUL profilesUL mb-0">

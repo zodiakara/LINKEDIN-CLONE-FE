@@ -5,24 +5,28 @@ import LeftSidebar from "./LeftSidebar";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getAllPosts } from "../../redux/reducers/posts.js/posts";
+import { Container } from "react-bootstrap";
 
 const HomePage = () => {
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.auth.userInfo);
+  const posts = useSelector((state) => state.posts.posts.posts);
 
   useEffect(() => {
     dispatch(getAllPosts());
-  }, []);
+  }, [posts.length]);
 
   return (
     <>
       {currentUser && (
         <>
-          <LeftSidebar />
+          <Container className="d-flex">
+            <LeftSidebar />
 
-          <MainPostsContainer />
+            <MainPostsContainer />
 
-          <RightSideBar />
+            <RightSideBar />
+          </Container>
         </>
       )}
     </>

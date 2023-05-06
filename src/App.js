@@ -18,17 +18,15 @@ function App() {
     <div>
       <BrowserRouter>
         <MainNavbar />
-        <Container>
-          <Row>
-            <Routes>
-              <Route path="/profile/:userId" element={<UserProfile />} />
-              <Route path="/" element={<HomePage />} />
-              <Route path="/register" element={<SignUpPage />} />
-              <Route path="/login" element={<LoginPage />} />
-            </Routes>
-          </Row>
-          <MainFooter />
-        </Container>
+
+        <Routes>
+          <Route path="/profile/:userId" element={<UserProfile />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/register" element={<SignUpPage />} />
+          <Route path="/login" element={<LoginPage />} />
+        </Routes>
+
+        <MainFooter />
       </BrowserRouter>
     </div>
   );

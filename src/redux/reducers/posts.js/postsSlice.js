@@ -4,12 +4,27 @@ import { getAllPosts } from "./posts";
 const initialState = {
   posts: [],
   loading: false,
+  postImage: null,
+  postModal: false,
 };
 
 const postsSlice = createSlice({
   name: "posts",
   initialState,
-  reducers: {},
+  reducers: {
+    addPostPicture: (state, action) => {
+      state.postImage = action.payload;
+    },
+    removePostPicture: (state) => {
+      state.postImage = null;
+    },
+    showPostModal: (state) => {
+      state.postModal = true;
+    },
+    hidePostModal: (state) => {
+      state.postModal = false;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getAllPosts.pending, (state) => {
