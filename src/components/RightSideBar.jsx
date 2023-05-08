@@ -10,7 +10,6 @@ import { ADD_ALL_PROFILES, fetchProfile } from "../redux/actions/actions";
 import { getAllUsers } from "../redux/reducers/users/users";
 
 const RightSideBar = () => {
-  const [allProfiles, setAllProfiles] = useState([]);
   const messageIcon = (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -44,11 +43,12 @@ const RightSideBar = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setAllProfiles(dispatch(getAllUsers()));
-    console.log(allProfiles);
-  }, [dispatch]);
+    dispatch(getAllUsers());
+  }, []);
 
-  // const allProfiles = useSelector((state) => state.profiles.allProfiles);
+  const allProfiles = useSelector((state) => state.users.allProfiles);
+  console.log(allProfiles);
+  const currentUser = useSelector((state) => state.auth.userInfo);
 
   return (
     <Col className="d-flex flex-column align-items-end ">
@@ -61,6 +61,7 @@ const RightSideBar = () => {
         <div className="fw-bold pt-3 fs-20">People also viewed</div>
         {allProfiles &&
           allProfiles
+            .filter((user) => user._id === currentUser._id)
             .slice(0, 5)
             .map((profile) => (
               <ProfilesLi
@@ -73,9 +74,16 @@ const RightSideBar = () => {
       <ActionLi text="Show More" icon={dropdownIcon} />
       <ul className="sidebarUL profilesUL mb-0">
         <div className="fw-bold pt-3 fs-20">People you may know</div>
-        {allProfiles.slice(0, 5).map((profile) => (
-          <ProfilesLi icon={messageIcon} profile={profile} key={profile._id} />
-        ))}
+        {allProfiles
+          .filter((user) => user._id === currentUser._id)
+          .slice(0, 5)
+          .map((profile) => (
+            <ProfilesLi
+              icon={messageIcon}
+              profile={profile}
+              key={profile._id}
+            />
+          ))}
       </ul>
       <ActionLi text="Show More" icon={dropdownIcon} />
       <div className="sidebarUL profilesUL mb-0 sticky">

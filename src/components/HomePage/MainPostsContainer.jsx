@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 
 const MainPostsContainer = () => {
   const posts = useSelector((state) => state.posts.posts.posts);
-  console.log(posts);
+  console.log(posts.toReversed());
 
   return (
     <>
@@ -18,7 +18,9 @@ const MainPostsContainer = () => {
           </span>
         </div>
         {posts &&
-          posts.map((post) => <PostsDisplay post={post} key={post._id} />)}
+          posts
+            .toReversed()
+            .map((post) => <PostsDisplay post={post} key={post._id} />)}
       </Col>
     </>
   );

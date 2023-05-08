@@ -4,7 +4,13 @@ const BE_URL = process.env.REACT_APP_BE_DEV_URL;
 
 export const getAllUsers = createAsyncThunk("users/getAll", async () => {
   try {
-    const response = await fetch(`${BE_URL}/users`);
+    const config = {
+      method: "GET",
+      headers: new Headers({
+        "Content-Type": "application/json",
+      }),
+    };
+    const response = await fetch(`${BE_URL}/users`, config);
     if (response.ok) {
       const users = await response.json();
       return users;

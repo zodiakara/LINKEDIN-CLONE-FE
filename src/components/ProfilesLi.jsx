@@ -25,7 +25,7 @@ const ProfilesLi = (props) => {
         <div className="xs-profiles fs-12 d-flex align-items-center text-center">
           <img
             className="xs-profiles pointer"
-            src={props.profile.image}
+            src={props.profile.avatar}
             alt="mini-profile-pics"
             onClick={() => {
               navigate(`/profile/${props.profile._id}`);

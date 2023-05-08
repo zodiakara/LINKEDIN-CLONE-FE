@@ -7,6 +7,7 @@ import searchReducer from "../reducers/searchReducer";
 import authSlice from "../reducers/auth/authSlice";
 import expSlice from "../reducers/userExp.js/expSlice";
 import postsSlice from "../reducers/posts.js/postsSlice";
+import usersSlice from "../reducers/users/usersSlice";
 import storage from "redux-persist/lib/storage";
 import { encryptTransform } from "redux-persist-transform-encrypt";
 const persistConfig = {
@@ -23,12 +24,12 @@ const persistConfig = {
 };
 
 const bigReducer = combineReducers({
-  profiles: profilesReducer,
-  experience: experienceReducer,
+  // experience: experienceReducer,
   search: searchReducer,
   posts: postsSlice,
   auth: authSlice,
   exp: expSlice,
+  users: usersSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, bigReducer);
