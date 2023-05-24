@@ -11,16 +11,8 @@ import {
 } from "../redux/actions/actions";
 
 const ExperienceModal = (props) => {
-  const currentExpData = useSelector(
-    (state) => state.experience.currentExpData
-  );
-  // const addedData = {
-  //   role: "CTO",
-  //   company: "Strive School",
-  //   startDate: "2019-06-16",
-  //   endDate: "2019-06-16",
-  // };
-  const showModal = useSelector((state) => state.experience.showModal);
+  const currentExpData = useSelector((state) => state.exp.currentExpData);
+  const showModal = useSelector((state) => state.exp.showModal);
   const [addedData, setAddedData] = useState({
     role: "",
     company: "",

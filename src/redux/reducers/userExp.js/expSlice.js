@@ -10,8 +10,8 @@ const initialState = {
   error: false,
   addedExp: null,
   expPicture: null,
-  showModal: false,
-  showEditExpSection: false,
+  showAddExpModal: false,
+  showEditExpModal: false,
   currentExpData: null,
   loading: false,
 };
@@ -23,11 +23,17 @@ const expSlice = createSlice({
     addExpImage: (state, action) => {
       state.expPicture = action.payload;
     },
-    showEditModal: (state) => {
-      state.showModal = true;
+    showAddExpModal: (state) => {
+      state.showAddExpModal = true;
     },
-    hideEditModal: (state) => {
-      state.showModal = false;
+    hideAddExpModal: (state) => {
+      state.showAddExpModal = false;
+    },
+    showEditExpModal: (state) => {
+      state.showEditExpModal = true;
+    },
+    hideEditExpModal: (state) => {
+      state.showEditExpModal = false;
     },
   },
   extraReducers: (builder) => {

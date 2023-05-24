@@ -9,42 +9,38 @@ import AboutUser from "./AboutUser";
 import ProfileSection from "./ProfileSection";
 import { Col } from "react-bootstrap";
 import RightSideBar from "./RightSideBar";
-import MainFooter from "./MainFooter";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { fetchProfile, GET_EXPERIENCE } from "../redux/actions/actions";
-import { getSingleUser } from "../redux/reducers/users/users";
+import { getAllExperiences } from "../redux/reducers/userExp.js/experiences";
 
 const UserProfile = () => {
   const params = useParams();
   const currentUser = useSelector((state) => state.auth.userInfo);
-  const clickedProfile = useSelector((state) => state.profiles.clickedProfile);
-  const experiences = useSelector((state) => state.experience.expData);
-  const addedExpData = useSelector((state) => state.experience.addedExpData);
-  const editExpSection = useSelector(
-    (state) => state.experience.showEditExpSection
-  );
+  const selectedProfile = useSelector((state) => state.users.selectedProfile);
+  const experiences = useSelector((state) => state.exp.experiencesData);
+  console.log(experiences);
+  // const addedExpData = useSelector((state) => state.experience.addedExpData);
+  const editExpSection = useSelector((state) => state.exp.showEditExpSection);
 
   const currentProfile =
-    params.userId === currentUser._id ? currentUser : clickedProfile;
+    params.userId === currentUser._id ? currentUser : selectedProfile;
+
+  console.log(currentProfile);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getSingleUser(params.userId));
-  }, [clickedProfile]);
+    dispatch(getAllExperiences(params.userId));
+  }, [selectedProfile, selectedProfile.experiences]);
 
   // useEffect(() => {
   //   dispatch(fetchProfile(endPoint, options, id, action));
   // }, [addedExpData]);
 
-  useEffect(() => {
-    console.log(experiences);
-  }, []);
-
   return (
     <>
-      {/* {editExpSection ? (
+      {editExpSection ? (
         <>
           <Col sm={12} md={6} lg={8}>
             <ProfileSection currentProfile={currentProfile} />
@@ -63,45 +59,45 @@ const UserProfile = () => {
             <RightSideBar />
           </Col>
         </>
-      ) : ( */}
-      <>
-        <Col sm={12} md={6} lg={8}>
-          <ProfileSection currentProfile={currentUser} />
-          <div className="cards-main-container cd-width">
-            <AboutUser currentProfile={currentUser} />
-            <div className="activity">
-              <Activity />
+      ) : (
+        <>
+          <Col sm={12} md={6} lg={8}>
+            <ProfileSection currentProfile={currentProfile} />
+            <div className="cards-main-container cd-width">
+              <AboutUser currentProfile={currentProfile} />
+              <div className="activity">
+                <Activity />
+              </div>
+              <div className="experience cd cd-width ff">
+                {experiences.length !== 0 && (
+                  <Experience
+                    currentProfile={currentProfile}
+                    experiences={experiences}
+                  />
+                )}
+              </div>
+              <div className="education cd cd-width ff">
+                <Education />
+              </div>
+              <div className="Licenses cd cd-width ff">
+                <Licenses />
+              </div>
+              <div className="skills cd cd-width ff">
+                <Skills />
+              </div>
+              <div className="languages cd cd-width ff">
+                <Languages />
+              </div>
+              <div className="interests cd cd-width ff">
+                <Interests />
+              </div>
             </div>
-            <div className="experience cd cd-width ff">
-              {/* {experiences.length !== 0 && (
-                <Experience
-                  currentProfile={currentUser}
-                  experiences={experiences}
-                />
-              )} */}
-            </div>
-            <div className="education cd cd-width ff">
-              <Education />
-            </div>
-            <div className="Licenses cd cd-width ff">
-              <Licenses />
-            </div>
-            <div className="skills cd cd-width ff">
-              <Skills />
-            </div>
-            <div className="languages cd cd-width ff">
-              <Languages />
-            </div>
-            <div className="interests cd cd-width ff">
-              <Interests />
-            </div>
-          </div>
-        </Col>
-        <Col sm={12} md={6} lg={4} className="px-0">
-          <RightSideBar />
-        </Col>
-      </>
-      {/* )} */}
+          </Col>
+          <Col sm={12} md={6} lg={4} className="px-0">
+            <RightSideBar />
+          </Col>
+        </>
+      )}
     </>
   );
 };

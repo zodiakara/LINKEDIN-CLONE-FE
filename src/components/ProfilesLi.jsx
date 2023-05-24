@@ -3,21 +3,12 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ADD_CLICKED_PROFILE, fetchProfile } from "../redux/actions/actions";
 import GreyBorderBtn from "./GreyBorderBtn";
+import { getCurrentUser } from "../redux/reducers/auth/userAuthActions";
 
 const ProfilesLi = (props) => {
   const navigate = useNavigate();
-  const action = ADD_CLICKED_PROFILE;
   const dispatch = useDispatch();
-  const id = props.profile._id;
-  const endPoint = "https://striveschool-api.herokuapp.com/api/profile/";
-  const accessToken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Mzk3MGQxOGM5NmRmYjAwMTUyMWE1YzkiLCJpYXQiOjE2NzA4NDM2NzIsImV4cCI6MTY3MjA1MzI3Mn0.0dUkULTnbH-D7rmu6VpWb4OqjIwfSynoJ3nmyP2FbL4";
-  const options = {
-    method: "GET",
-    headers: {
-      Authorization: "Bearer " + accessToken,
-    },
-  };
+  const userId = props.profile._id;
 
   return (
     <li className="sidebarLi d-flex">
@@ -29,7 +20,7 @@ const ProfilesLi = (props) => {
             alt="mini-profile-pics"
             onClick={() => {
               navigate(`/profile/${props.profile._id}`);
-              dispatch(fetchProfile(endPoint, options, id, action));
+              dispatch(getCurrentUser(userId));
             }}
           />
         </div>
@@ -41,7 +32,7 @@ const ProfilesLi = (props) => {
             className="fw-bold pointer"
             onClick={() => {
               navigate(`/profile/${props.profile._id}`);
-              dispatch(fetchProfile(endPoint, options, id, action));
+              dispatch(getCurrentUser(userId));
             }}
           >
             {props.profile.name} {props.profile.surname} |{" "}

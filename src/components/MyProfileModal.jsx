@@ -5,12 +5,17 @@ import {
   CHANGE_SHOW_PROFILE_MODAL,
   fetchProfile,
 } from "../redux/actions/actions";
+import {
+  getCurrentUser,
+  updateUserInfo,
+} from "../redux/reducers/auth/userAuthActions";
+import { authActions } from "../redux/reducers/auth/authSlice";
 
 const MyProfileModal = (props) => {
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.auth.userInfo);
 
-  const [addedMyProfileData, setaddedMyProfileData] = useState({
+  const [profileData, setProfileData] = useState({
     name: "",
     surname: "",
     email: "",
@@ -20,12 +25,16 @@ const MyProfileModal = (props) => {
   });
 
   function handleChange(event) {
-    setaddedMyProfileData({
-      ...addedMyProfileData,
+    setProfileData({
+      ...profileData,
       [event.target.name]: event.target.value,
     });
+    return profileData;
   }
-
+  const handleSetProfileData = () => {
+    dispatch(updateUserInfo({ userId: currentUser._id, data: profileData }));
+    dispatch(getCurrentUser());
+  };
   // useEffect(() => {
   //   setaddedMyProfileData(myProfile);
   // }, [myProfile]);
@@ -57,7 +66,7 @@ const MyProfileModal = (props) => {
           <Form.Group controlId="exampleForm.ControlInput1">
             <Form.Label>Name*</Form.Label>
             <Form.Control
-              value={currentUser.name}
+              value={currentUser.name ? currentUser.name : ""}
               name="name"
               onChange={handleChange}
               type="text"
@@ -67,7 +76,7 @@ const MyProfileModal = (props) => {
           <Form.Group controlId="exampleForm.ControlInput1">
             <Form.Label>Surname*</Form.Label>
             <Form.Control
-              value={currentUser.surname}
+              value={currentUser.surname ? currentUser.surname : ""}
               name="surname"
               onChange={handleChange}
               type="text"
@@ -77,7 +86,7 @@ const MyProfileModal = (props) => {
           <Form.Group controlId="exampleForm.ControlInput1">
             <Form.Label>Email*</Form.Label>
             <Form.Control
-              value={currentUser.email}
+              value={currentUser.email ? currentUser.email : ""}
               name="email"
               onChange={handleChange}
               type="text"
@@ -87,7 +96,7 @@ const MyProfileModal = (props) => {
           <Form.Group controlId="exampleForm.ControlInput1">
             <Form.Label>Title*</Form.Label>
             <Form.Control
-              value={currentUser.title}
+              value={currentUser.title ? currentUser.title : ""}
               name="title"
               onChange={handleChange}
               type="text"
@@ -97,7 +106,7 @@ const MyProfileModal = (props) => {
           <Form.Group controlId="exampleForm.ControlInput1">
             <Form.Label>Location*</Form.Label>
             <Form.Control
-              value={currentUser.area}
+              value={currentUser.area ? currentUser.area : ""}
               name="area"
               onChange={handleChange}
               type="text"
@@ -107,7 +116,7 @@ const MyProfileModal = (props) => {
           <Form.Group controlId="exampleForm.ControlInput1">
             <Form.Label>About*</Form.Label>
             <Form.Control
-              value={currentUser.bio}
+              value={currentUser.bio ? currentUser.bio : ""}
               name="bio"
               onChange={handleChange}
               type="text"
@@ -120,20 +129,12 @@ const MyProfileModal = (props) => {
         <Button
           variant="secondary"
           onClick={() => {
-            dispatch({
-              type: CHANGE_SHOW_PROFILE_MODAL,
-              payload: false,
-            });
+            dispatch(authActions.hideEditModal());
           }}
         >
           Close
         </Button>
-        <Button
-          variant="primary"
-          onClick={() => {
-            console.log(addedMyProfileData);
-          }}
-        >
+        <Button variant="primary" onClick={handleSetProfileData}>
           Save Changes
         </Button>
       </Modal.Footer>

@@ -1,29 +1,23 @@
 import message from "../Icon/Send.svg";
 import plus from "../Icon/Plus.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { HiOutlinePencil } from "react-icons/hi";
-import { useEffect } from "react";
-import { CHANGE_SHOW_PROFILE_MODAL } from "../redux/actions/actions";
 import MyProfileModal from "./MyProfileModal";
+import { authActions } from "../redux/reducers/auth/authSlice";
 
 const ProfileSection = (props) => {
   const params = useParams();
-  const myProfile = useSelector((state) => state.profiles.myProfile);
-  const showProfileModal = useSelector(
-    (state) => state.profiles.showProfileModal
-  );
   const dispatch = useDispatch();
+  const currentUser = useSelector((state) => state.auth.userInfo);
+  const showProfileModal = useSelector((state) => state.auth.editModal);
 
   return (
     <div className="profile-main">
       <MyProfileModal
         show={showProfileModal}
         onHide={() => {
-          dispatch({
-            type: CHANGE_SHOW_PROFILE_MODAL,
-            payload: false,
-          });
+          dispatch(authActions.hideEditModal());
         }}
       />
       <div className="profile-cover">
@@ -32,7 +26,7 @@ const ProfileSection = (props) => {
           alt=""
         />
         <div className="profile-picture">
-          <img src={props.currentUser.avatar} alt="profile" />
+          <img src={props.currentProfile.avatar} alt="profile" />
         </div>
       </div>
       <div className="profile-text-area">
@@ -40,27 +34,24 @@ const ProfileSection = (props) => {
           <div className="d-flex justify-content-between">
             {" "}
             <p className="username fs-24 fw-700 margin-0">
-              {props.currentUser.name} {props.currentUser.surname}
+              {props.currentProfile.name} {props.currentProfile.surname}
             </p>{" "}
-            {params.userId === props.currentUser._id && (
+            {params.userId === currentUser._id && (
               <button className="experience-buttons">
                 <HiOutlinePencil
                   className="experience-buttons-icon"
                   onClick={() => {
-                    dispatch({
-                      type: CHANGE_SHOW_PROFILE_MODAL,
-                      payload: true,
-                    });
+                    dispatch(authActions.showEditModal());
                   }}
                 />
               </button>
             )}
           </div>
 
-          <p className="user-role fs-16">{props.currentUser.title}</p>
+          <p className="user-role fs-16">{props.currentProfile.title}</p>
           <div className="contact-location d-flex align-items-center">
             <p className="location fs-14  mr-2">
-              {props.currentUser.area ? props.currentUser.area : ""}
+              {props.currentProfile.area ? props.currentProfile.area : ""}
             </p>
             <p className="contact-info fs-14 fw-700">Contact info</p>
           </div>

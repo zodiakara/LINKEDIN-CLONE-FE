@@ -14,6 +14,9 @@ import { IoMdArrowBack } from "react-icons/io";
 import ExperienceModal from "./ExperienceModal";
 import { useParams } from "react-router-dom";
 import { format, parse, parseISO } from "date-fns";
+import { expActions } from "../redux/reducers/userExp.js/expSlice";
+import { deleteSingleExperience } from "../redux/reducers/userExp.js/experiences";
+import { getCurrentUser } from "../redux/reducers/auth/userAuthActions";
 
 const Experience = (props) => {
   const dispatch = useDispatch();
@@ -21,54 +24,15 @@ const Experience = (props) => {
 
   // const experiences = useSelector((state) => state.experience.expData);
   const experiences = props.experiences;
-  const showModal = useSelector((state) => state.experience.showModal);
-  const myProfile = useSelector((state) => state.profiles.myProfile);
-  const clickedProfile = useSelector((state) => state.profiles.clickedProfile);
+  const showModal = useSelector((state) => state.exp.showAddExpModal);
+  const currentUser = useSelector((state) => state.auth.userInfo);
+  const selectedProfile = useSelector((state) => state.users.selectedProfile);
   const currentProfile =
-    params.userId === myProfile._id ? myProfile : clickedProfile;
-  const currentExpData = useSelector(
-    (state) => state.experience.currentExpData
-  );
-  const editExpSection = useSelector(
-    (state) => state.experience.showEditExpSection
-  );
+    params.userId === currentUser._id ? currentUser : selectedProfile;
+  const currentExpData = useSelector((state) => state.exp.currentExpData);
+  const editExpSection = useSelector((state) => state.exp.showEditExpSection);
   const isMyProfile =
-    myProfile && clickedProfile && myProfile._id === clickedProfile._id;
-  // const endPoint = "https://striveschool-api.herokuapp.com/api/profile/";
-  // const accessToken =
-  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Mzk3MGQxOGM5NmRmYjAwMTUyMWE1YzkiLCJpYXQiOjE2NzA4NDM2NzIsImV4cCI6MTY3MjA1MzI3Mn0.0dUkULTnbH-D7rmu6VpWb4OqjIwfSynoJ3nmyP2FbL4";
-  // const options = {
-  //   method: "GET",
-  //   headers: {
-  //     Authorization: "Bearer " + accessToken,
-  //   },
-  // };
-  // const params = useParams();
-  // const id = params.userId === `${props.currentProfile._id}/experiences`;
-  // const action = GET_EXPERIENCE;
-  // const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   dispatch({
-  //     type: action,
-  //     payload: [],
-  //   });
-  //   dispatch(fetchProfile(endPoint, options, id, action));
-  // }, [props.currentProfile]);
-
-  const endPoint = "https://striveschool-api.herokuapp.com/api/profile/";
-  const accessToken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Mzk3MGQxOGM5NmRmYjAwMTUyMWE1YzkiLCJpYXQiOjE2NzA4NDM2NzIsImV4cCI6MTY3MjA1MzI3Mn0.0dUkULTnbH-D7rmu6VpWb4OqjIwfSynoJ3nmyP2FbL4";
-  const options = {
-    method: "DELETE",
-    headers: {
-      Authorization: "Bearer " + accessToken,
-    },
-  };
-  const deleteId =
-    props.currentExpData &&
-    `${currentProfile._id}/experiences/${currentExpData._id}`;
-  const action = ADD_EXPERIENCE;
+    currentUser && selectedProfile && currentUser._id === selectedProfile._id;
 
   return (
     <div className="experience-section ">
@@ -98,7 +62,7 @@ const Experience = (props) => {
               <button
                 className="experience-buttons"
                 onClick={() => {
-                  dispatch({ type: CHANGE_SHOW_MODAL, payload: true });
+                  dispatch(expActions.showAddExpModal());
                 }}
               >
                 <HiOutlinePlus className="experience-buttons-icon" />
@@ -124,7 +88,7 @@ const Experience = (props) => {
             currentExpData={currentExpData}
             show={showModal}
             onHide={() => {
-              dispatch({ type: CHANGE_SHOW_MODAL, payload: false });
+              dispatch(expActions.hideAddExpModal());
               dispatch({
                 type: ADD_CURRENT_EXP_DATA,
                 payload: null,
@@ -154,10 +118,12 @@ const Experience = (props) => {
                 experience.startDate !== null &&
                 format(parseISO(experience.startDate), "yyyy-MM-dd")}
             </span>
-            {/* <span className="fs-14 ld-grey"> until </span>
+            <span className="fs-14 ld-grey"> until </span>
             <span className="fs-14 ld-grey">
-              {experience.updatedAt.slice(0, 10)}
-            </span> */}
+              {experience.endDate &&
+                experience.endDate !== null &&
+                format(parseISO(experience.endDate), "yyyy-MM-dd")}
+            </span>
             <p className="fs-14 ld-grey">{experience.area}</p>
           </div>{" "}
           {editExpSection && (
@@ -165,21 +131,16 @@ const Experience = (props) => {
               <button className="experience-buttons">
                 <HiTrash
                   onClick={() => {
-                    dispatch({
-                      type: ADD_CURRENT_EXP_DATA,
-                      payload: experience,
-                    });
+                    dispatch(
+                      deleteSingleExperience({
+                        userId: currentProfile._id,
+                        expId: experience._id,
+                      })
+                    );
                     console.log(
                       `We want to delete the experience with id: ${experience._id} and completeEndpoint ${currentProfile._id}/experiences/${experience._id}`
                     );
-                    dispatch(
-                      fetchProfile(
-                        endPoint,
-                        options,
-                        `${currentProfile._id}/experiences/${experience._id}`,
-                        action
-                      )
-                    );
+                    dispatch(getCurrentUser(currentProfile._id));
                   }}
                   className="experience-buttons-icon"
                 />
