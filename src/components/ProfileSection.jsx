@@ -14,12 +14,7 @@ const ProfileSection = (props) => {
 
   return (
     <div className="profile-main">
-      <MyProfileModal
-        show={showProfileModal}
-        onHide={() => {
-          dispatch(authActions.hideEditModal());
-        }}
-      />
+      <MyProfileModal show={showProfileModal} />
       <div className="profile-cover">
         <img
           src="https://images.ctfassets.net/7thvzrs93dvf/wpImage18643/2f45c72db7876d2f40623a8b09a88b17/linkedin-default-background-cover-photo-1.png?w=790&h=196&q=90&fm=png"

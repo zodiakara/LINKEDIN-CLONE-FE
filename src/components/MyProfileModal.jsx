@@ -1,10 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  CHANGE_SHOW_PROFILE_MODAL,
-  fetchProfile,
-} from "../redux/actions/actions";
+
 import {
   getCurrentUser,
   updateUserInfo,
@@ -15,112 +12,119 @@ const MyProfileModal = (props) => {
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.auth.userInfo);
 
-  const [profileData, setProfileData] = useState({
-    name: "",
-    surname: "",
-    email: "",
-    title: "",
-    area: "",
-    bio: "",
-  });
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [title, setTitle] = useState("");
+  const [bio, setBio] = useState("");
+  const [area, setArea] = useState("");
 
-  function handleChange(event) {
-    setProfileData({
-      ...profileData,
-      [event.target.name]: event.target.value,
-    });
-    return profileData;
+  function handleSetProfileData(event) {
+    event.preventDefault();
+    const editedProfile = {};
+    if (name) {
+      editedProfile.name = name;
+    }
+    if (surname) {
+      editedProfile.surname = surname;
+    }
+    if (title) {
+      editedProfile.title = title;
+    }
+    if (bio) {
+      editedProfile.bio = bio;
+    }
+    if (area) {
+      editedProfile.area = area;
+    }
+
+    if (editedProfile) {
+      dispatch(
+        updateUserInfo({ userId: currentUser._id, data: editedProfile })
+      ).then(() => {
+        dispatch(getCurrentUser());
+        cleanProfileData();
+        dispatch(authActions.hideEditModal());
+      });
+    } else {
+      return null;
+    }
   }
-  const handleSetProfileData = () => {
-    dispatch(updateUserInfo({ userId: currentUser._id, data: profileData }));
-    dispatch(getCurrentUser());
-  };
-  // useEffect(() => {
-  //   setaddedMyProfileData(myProfile);
-  // }, [myProfile]);
 
-  // const endPoint = "https://striveschool-api.herokuapp.com/api/profile/";
-  // const accessToken =
-  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Mzk3MGQxOGM5NmRmYjAwMTUyMWE1YzkiLCJpYXQiOjE2NzA4NDM2NzIsImV4cCI6MTY3MjA1MzI3Mn0.0dUkULTnbH-D7rmu6VpWb4OqjIwfSynoJ3nmyP2FbL4";
-  // const options = {
-  //   method: "PUT",
-  //   headers: {
-  //     Authorization: "Bearer " + accessToken,
-  //     "Content-Type": "application/json",
-  //   },
-  //   body: JSON.stringify(addedMyProfileData),
-  // };
-  // const id = "";
-  // const action = "";
+  const cleanProfileData = () => {
+    setName("");
+    setSurname("");
+    setTitle("");
+    setBio("");
+    setArea("");
+  };
   return (
-    <Modal {...props}>
+    <Modal
+      {...props}
+      onHide={() => {
+        dispatch(authActions.hideEditModal());
+        cleanProfileData();
+      }}
+    >
       <Modal.Header closeButton>
         <Modal.Title>Edit your profile</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form
-          onSubmit={(e) => {
-            e.preventDefault();
-          }}
-        >
+        <Form>
           <Form.Group controlId="exampleForm.ControlInput1">
-            <Form.Label>Name*</Form.Label>
+            <Form.Label>Name</Form.Label>
             <Form.Control
-              value={currentUser.name ? currentUser.name : ""}
+              defaultValue={currentUser.name ? currentUser.name : name}
+              required
               name="name"
-              onChange={handleChange}
+              onChange={(e) => {
+                setName(e.target.value);
+              }}
               type="text"
-              placeholder=""
             />
           </Form.Group>
           <Form.Group controlId="exampleForm.ControlInput1">
-            <Form.Label>Surname*</Form.Label>
+            <Form.Label>Surname</Form.Label>
             <Form.Control
-              value={currentUser.surname ? currentUser.surname : ""}
+              defaultValue={currentUser.surname ? currentUser.surname : ""}
+              required
               name="surname"
-              onChange={handleChange}
+              onChange={(e) => {
+                setSurname(e.target.value);
+              }}
               type="text"
-              placeholder=""
             />
           </Form.Group>
           <Form.Group controlId="exampleForm.ControlInput1">
-            <Form.Label>Email*</Form.Label>
+            <Form.Label>Title</Form.Label>
             <Form.Control
-              value={currentUser.email ? currentUser.email : ""}
-              name="email"
-              onChange={handleChange}
-              type="text"
-              placeholder=""
-            />
-          </Form.Group>
-          <Form.Group controlId="exampleForm.ControlInput1">
-            <Form.Label>Title*</Form.Label>
-            <Form.Control
-              value={currentUser.title ? currentUser.title : ""}
+              defaultValue={currentUser.title ? currentUser.title : ""}
               name="title"
-              onChange={handleChange}
+              onChange={(e) => {
+                setTitle(e.target.value);
+              }}
               type="text"
-              placeholder=""
             />
           </Form.Group>
           <Form.Group controlId="exampleForm.ControlInput1">
-            <Form.Label>Location*</Form.Label>
+            <Form.Label>Location</Form.Label>
             <Form.Control
-              value={currentUser.area ? currentUser.area : ""}
+              defaultValue={currentUser.area ? currentUser.area : ""}
               name="area"
-              onChange={handleChange}
+              onChange={(e) => {
+                setArea(e.target.value);
+              }}
               type="text"
-              placeholder=""
             />
           </Form.Group>
           <Form.Group controlId="exampleForm.ControlInput1">
-            <Form.Label>About*</Form.Label>
+            <Form.Label>About</Form.Label>
             <Form.Control
-              value={currentUser.bio ? currentUser.bio : ""}
+              defaultValue={currentUser.bio ? currentUser.bio : ""}
               name="bio"
-              onChange={handleChange}
+              onChange={(e) => {
+                setBio(e.target.value);
+              }}
               type="text"
-              placeholder=""
             />
           </Form.Group>
         </Form>
@@ -129,6 +133,7 @@ const MyProfileModal = (props) => {
         <Button
           variant="secondary"
           onClick={() => {
+            cleanProfileData();
             dispatch(authActions.hideEditModal());
           }}
         >
