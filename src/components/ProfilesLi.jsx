@@ -1,7 +1,5 @@
-import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { ADD_CLICKED_PROFILE, fetchProfile } from "../redux/actions/actions";
 import GreyBorderBtn from "./GreyBorderBtn";
 import { getCurrentUser } from "../redux/reducers/auth/userAuthActions";
 

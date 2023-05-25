@@ -1,9 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {
-  addImageToExperience,
-  addSingleExperience,
-  getAllExperiences,
-} from "./experiences";
+import { getAllExperiences } from "./experiences";
 
 const initialState = {
   experiencesData: [],

@@ -25,6 +25,7 @@ const LoginPage = () => {
       password: password,
     };
     dispatch(loginUser(user));
+    dispatch(getAllPosts());
     navigate("/");
   };
 
