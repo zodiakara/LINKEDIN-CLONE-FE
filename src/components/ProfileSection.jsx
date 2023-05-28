@@ -13,6 +13,8 @@ const ProfileSection = (props) => {
   const currentUser = useSelector((state) => state.auth.userInfo);
   const showProfileModal = useSelector((state) => state.auth.editModal);
   const showAvatarModal = useSelector((state) => state.auth.avatarModal);
+  const postImage = useSelector((state) => state.posts.postImage);
+
   return (
     <div className="profile-main">
       <MyProfileModal show={showProfileModal} />
@@ -28,7 +30,10 @@ const ProfileSection = (props) => {
             dispatch(authActions.showPictureModal());
           }}
         >
-          <img src={props.currentProfile.avatar} alt="profile" />
+          <img
+            src={postImage ? postImage : props.currentProfile.avatar}
+            alt="profile"
+          />
         </div>
       </div>
       <div className="profile-text-area">

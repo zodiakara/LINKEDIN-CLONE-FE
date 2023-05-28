@@ -9,6 +9,7 @@ import { FaSun } from "react-icons/fa";
 import { RiBarChartFill } from "react-icons/ri";
 import { useState } from "react";
 import { addNewPost, getAllPosts } from "../redux/reducers/posts.js/posts";
+import { postActions } from "../redux/reducers/posts.js/postsSlice";
 
 const PostModal = (props) => {
   const currentUser = useSelector((state) => state.auth.userInfo);
@@ -22,16 +23,14 @@ const PostModal = (props) => {
       text: text,
       user: currentUser._id,
     };
-    if (postImage) {
-      newPost.image = postImage;
-    }
-    dispatch(addNewPost(newPost)).then(() => {
-      dispatch(getAllPosts());
+    dispatch(addNewPost({ newPost, image: postImage })).then(() => {
+      setText("");
+      setTimeout(() => {
+        props.onHide();
+        dispatch(getAllPosts());
+        dispatch(postActions.removePostPicture());
+      }, 2000);
     });
-    setText("");
-    setTimeout(() => {
-      props.onHide();
-    }, 1000);
   };
 
   const icon = (
@@ -65,7 +64,15 @@ const PostModal = (props) => {
   );
 
   return (
-    <Modal {...props} className="post-model">
+    <Modal
+      {...props}
+      className="post-model"
+      onHide={() => {
+        dispatch(postActions.hidePostModal());
+        dispatch(postActions.removePostPicture());
+        setText("");
+      }}
+    >
       <Modal.Header closeButton>
         <Modal.Title>Create a post</Modal.Title>
       </Modal.Header>
@@ -103,12 +110,21 @@ const PostModal = (props) => {
         </button>
       </Modal.Body>
       <Modal.Footer>
-        <button className="experience-buttons">
-          <label for="customFile2">
-            <HiOutlinePhoto className="experience-buttons-icon" />
-          </label>
-          <input type="file" class="form-control d-none" id="customFile2" />
-        </button>
+        <input
+          className="ugh"
+          accept="image/*"
+          id="postImage"
+          single
+          type="file"
+          onChange={(e) => {
+            const file = e.target.files[0];
+            dispatch(postActions.addPostPicture(file));
+          }}
+        ></input>
+        <label htmlFor="postImage" className="m-0 p-0">
+          <HiOutlinePhoto className="experience-buttons-icon" />
+        </label>
+        <button className="experience-buttons align-items-center"></button>
         <button className="experience-buttons">
           <IoLogoYoutube className="experience-buttons-icon" />
         </button>

@@ -20,6 +20,7 @@ const UserProfile = () => {
   const selectedProfile = useSelector((state) => state.users.selectedProfile);
   const experiences = useSelector((state) => state.exp.experiencesData);
   console.log(experiences);
+
   // const addedExpData = useSelector((state) => state.experience.addedExpData);
   const editExpSection = useSelector((state) => state.exp.showEditExpSection);
 

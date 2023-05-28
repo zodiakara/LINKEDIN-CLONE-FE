@@ -41,6 +41,7 @@ const PostsDisplay = ({ post }) => {
             alt="random-pic"
             className="w-100"
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            src={post.postImage}
           />
         </div>
 

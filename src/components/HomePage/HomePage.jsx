@@ -15,7 +15,7 @@ const HomePage = () => {
 
   useEffect(() => {
     dispatch(getAllPosts());
-  }, [posts.length]);
+  }, [dispatch]);
 
   return (
     <>

@@ -348,6 +348,7 @@ svg {
   justify-content: space-between;
 }
 .experience-buttons {
+  display: flex;
   height: 50px;
   width: 50px;
   border-radius: 50%;
