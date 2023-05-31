@@ -18,43 +18,43 @@ export const getAllPosts = createAsyncThunk("posts/getAll", async () => {
   }
 });
 
-export const addNewPost = createAsyncThunk("posts/addPost", async (newPost) => {
-  try {
-    const config = {
-      method: "POST",
-      body: JSON.stringify(newPost),
-      headers: new Headers({
-        "Content-Type": "application/json",
-      }),
-    };
-    const response = await fetch(`${BE_URL}/posts`, config);
-    if (response.ok) {
-      console.log("post addedd!");
-    }
-  } catch (error) {
-    console.log("error adding post", error);
-  }
-});
-
-export const addPictureToPost = createAsyncThunk(
-  "posts/addPicture",
-  async ({ postId, image }) => {
+export const addNewPost = createAsyncThunk(
+  "posts/addPost",
+  async ({ newPost, image }) => {
     try {
-      const form = new FormData();
-      form.append("post", image);
       const config = {
         method: "POST",
-        body: form,
+        body: JSON.stringify(newPost),
         headers: new Headers({
           "Content-Type": "application/json",
         }),
       };
-      const response = await fetch(`${BE_URL}/${postId}/image`, config);
+      const response = await fetch(`${BE_URL}/posts`, config);
       if (response.ok) {
-        console.log("picture added!");
+        const postId = await response.json();
+        if (image) {
+          addPictureToPost({ postId: postId._id, image: image });
+        }
       }
     } catch (error) {
-      console.log("error adding pic", error);
+      console.log("error adding post", error);
     }
   }
 );
+
+export const addPictureToPost = async ({ postId, image }) => {
+  try {
+    const form = new FormData();
+    form.append("postImage", image);
+    const config = {
+      method: "POST",
+      body: form,
+    };
+    const response = await fetch(`${BE_URL}/posts/${postId}/postImage`, config);
+    if (response.ok) {
+      console.log("picture added!");
+    }
+  } catch (error) {
+    console.log("error adding pic", error);
+  }
+};

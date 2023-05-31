@@ -5,23 +5,35 @@ import { useParams } from "react-router-dom";
 import { HiOutlinePencil } from "react-icons/hi";
 import MyProfileModal from "./MyProfileModal";
 import { authActions } from "../redux/reducers/auth/authSlice";
+import AvatarModal from "./AvatarModal";
 
 const ProfileSection = (props) => {
   const params = useParams();
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.auth.userInfo);
   const showProfileModal = useSelector((state) => state.auth.editModal);
+  const showAvatarModal = useSelector((state) => state.auth.avatarModal);
+  const postImage = useSelector((state) => state.posts.postImage);
 
   return (
     <div className="profile-main">
       <MyProfileModal show={showProfileModal} />
+      <AvatarModal show={showAvatarModal} />
       <div className="profile-cover">
         <img
           src="https://images.ctfassets.net/7thvzrs93dvf/wpImage18643/2f45c72db7876d2f40623a8b09a88b17/linkedin-default-background-cover-photo-1.png?w=790&h=196&q=90&fm=png"
-          alt=""
+          alt="profile-cover"
         />
-        <div className="profile-picture">
-          <img src={props.currentProfile.avatar} alt="profile" />
+        <div
+          className="profile-picture"
+          onClick={() => {
+            dispatch(authActions.showPictureModal());
+          }}
+        >
+          <img
+            src={postImage ? postImage : props.currentProfile.avatar}
+            alt="profile"
+          />
         </div>
       </div>
       <div className="profile-text-area">

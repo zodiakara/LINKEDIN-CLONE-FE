@@ -10,11 +10,12 @@ import { Container } from "react-bootstrap";
 const HomePage = () => {
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.auth.userInfo);
-  const posts = useSelector((state) => state.posts.posts.posts);
+  const posts = useSelector((state) => state.posts.posts);
+  console.log(posts);
 
   useEffect(() => {
     dispatch(getAllPosts());
-  }, [posts.length]);
+  }, [dispatch]);
 
   return (
     <>

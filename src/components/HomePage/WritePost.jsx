@@ -11,12 +11,7 @@ const WritePost = () => {
 
   return (
     <div className="mainContainerPost p-1">
-      <PostModal
-        show={showPostModal}
-        onHide={() => {
-          dispatch(postActions.hidePostModal());
-        }}
-      />
+      <PostModal show={showPostModal} />
       <div className="d-flex align-items-center">
         <img
           className="userPicturePost mt-2 ml-3"

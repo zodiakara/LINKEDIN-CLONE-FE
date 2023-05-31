@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 
 const MainPostsContainer = () => {
   const posts = useSelector((state) => state.posts.posts.posts);
-  console.log(posts.toReversed());
 
   return (
     <>

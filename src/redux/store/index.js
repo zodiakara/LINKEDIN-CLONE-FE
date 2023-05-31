@@ -1,8 +1,5 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import localStorage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
-import profilesReducer from "../reducers/profilesReducer";
-import experienceReducer from "../reducers/experienceReducer";
 import searchReducer from "../reducers/searchReducer";
 import authSlice from "../reducers/auth/authSlice";
 import expSlice from "../reducers/userExp.js/expSlice";
@@ -24,7 +21,6 @@ const persistConfig = {
 };
 
 const bigReducer = combineReducers({
-  // experience: experienceReducer,
   search: searchReducer,
   posts: postsSlice,
   auth: authSlice,

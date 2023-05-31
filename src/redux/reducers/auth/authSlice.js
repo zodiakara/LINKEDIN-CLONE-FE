@@ -13,6 +13,7 @@ const initialState = {
   userToken: null,
   userAvatar: null,
   editModal: false,
+  avatarModal: false,
   error: null,
   success: false,
 };
@@ -34,6 +35,12 @@ const authSlice = createSlice({
     },
     hideEditModal: (state) => {
       state.editModal = false;
+    },
+    showPictureModal: (state) => {
+      state.avatarModal = true;
+    },
+    hidePictureModal: (state) => {
+      state.avatarModal = false;
     },
   },
   extraReducers: (builder) => {
