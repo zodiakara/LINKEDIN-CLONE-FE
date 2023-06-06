@@ -26,7 +26,7 @@ const PostModal = (props) => {
     dispatch(addNewPost({ newPost, image: postImage })).then(() => {
       setText("");
       setTimeout(() => {
-        props.onHide();
+        dispatch(postActions.hidePostModal());
         dispatch(getAllPosts());
         dispatch(postActions.removePostPicture());
       }, 2000);

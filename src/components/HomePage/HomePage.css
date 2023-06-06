@@ -1,4 +1,4 @@
-/* .mainContainerPost {
+.mainContainerPost {
   background-color: var(--linkedin-white);
   border-radius: 10px;
 }
@@ -36,4 +36,4 @@
 }
 .share-box-btn:hover {
   background-color: var(--linkedin-white-grey);
-} */
+}

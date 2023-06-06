@@ -1,6 +1,5 @@
 import "./HomePage.css";
 import { useDispatch, useSelector } from "react-redux";
-import { CHANGE_SHOW_POST_MODAL } from "../../redux/actions/actions";
 import PostModal from "../PostModal";
 import { postActions } from "../../redux/reducers/posts.js/postsSlice";
 

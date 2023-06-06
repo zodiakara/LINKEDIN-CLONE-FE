@@ -33,11 +33,7 @@ const UserProfile = () => {
 
   useEffect(() => {
     dispatch(getAllExperiences(params.userId));
-  }, [selectedProfile, selectedProfile.experiences]);
-
-  // useEffect(() => {
-  //   dispatch(fetchProfile(endPoint, options, id, action));
-  // }, [addedExpData]);
+  }, [selectedProfile]);
 
   return (
     <>
