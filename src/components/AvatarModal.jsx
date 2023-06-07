@@ -1,18 +1,24 @@
 import { Button, Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../redux/reducers/auth/authSlice";
+import {
+  getCurrentUser,
+  uploadUserAvatar,
+} from "../redux/reducers/auth/userAuthActions";
 
 const AvatarModal = (props) => {
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.auth.userInfo);
   const userAvatar = useSelector((state) => state.auth.userAvatar);
+  const userId = currentUser._id;
   console.log(userAvatar);
 
-  const handleAddAvatar = (e) => {
-    e.preventDefault();
+  const handleImgUpload = () => {
+    if (userAvatar)
+      dispatch(uploadUserAvatar({ userId, userAvatar })).then(() => {
+        dispatch(getCurrentUser());
+      });
   };
-
-  const handleDeleteAvatar = () => {};
 
   return (
     <Modal
@@ -53,8 +59,7 @@ const AvatarModal = (props) => {
         </label>
       </Modal.Body>
       <Modal.Footer style={{ color: "white", background: "black" }}>
-        <Button onClick={handleAddAvatar}>Add Photo</Button>
-        <Button onClick={handleDeleteAvatar}>Delete</Button>
+        <Button onClick={handleImgUpload}>Add Photo</Button>
       </Modal.Footer>
     </Modal>
   );
