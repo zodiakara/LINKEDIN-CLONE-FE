@@ -29,10 +29,11 @@ import { useEffect, useState } from "react";
 import { authActions } from "../redux/reducers/auth/authSlice";
 
 const MainNavbar = () => {
-  const clickedSearch = useSelector((state) => state.search.clicked);
   const allProfiles = useSelector((state) => state.users.allProfiles);
-  const searchResults = useSelector((state) => state.search.searchResults);
   const currentUser = useSelector((state) => state.auth.userInfo);
+
+  const clickedSearch = useSelector((state) => state.search.clicked);
+  const searchResults = useSelector((state) => state.search.searchResults);
   const [query, setQuery] = useState("");
 
   const navigate = useNavigate();

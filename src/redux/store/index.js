@@ -7,6 +7,7 @@ import postsSlice from "../reducers/posts.js/postsSlice";
 import usersSlice from "../reducers/users/usersSlice";
 import storage from "redux-persist/lib/storage";
 import { encryptTransform } from "redux-persist-transform-encrypt";
+import educationSlice from "../reducers/userEd/educationSlice";
 const persistConfig = {
   key: "root",
   storage: storage,
@@ -26,6 +27,7 @@ const bigReducer = combineReducers({
   auth: authSlice,
   exp: expSlice,
   users: usersSlice,
+  edu: educationSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, bigReducer);

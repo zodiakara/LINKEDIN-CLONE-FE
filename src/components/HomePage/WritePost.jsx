@@ -1,8 +1,7 @@
 import "./HomePage.css";
 import { useDispatch, useSelector } from "react-redux";
-import { CHANGE_SHOW_POST_MODAL } from "../../redux/actions/actions";
 import PostModal from "../PostModal";
-import { postActions } from "../../redux/reducers/posts.js/postsSlice";
+import { postActions } from "../../redux/reducers/posts/postsSlice";
 
 const WritePost = () => {
   const currentUser = useSelector((state) => state.auth.userInfo);

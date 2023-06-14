@@ -8,8 +8,8 @@ import { BsBriefcaseFill, BsThreeDots } from "react-icons/bs";
 import { FaSun } from "react-icons/fa";
 import { RiBarChartFill } from "react-icons/ri";
 import { useState } from "react";
-import { addNewPost, getAllPosts } from "../redux/reducers/posts.js/posts";
-import { postActions } from "../redux/reducers/posts.js/postsSlice";
+import { addNewPost, getAllPosts } from "../redux/reducers/posts/posts";
+import { postActions } from "../redux/reducers/posts/postsSlice";
 
 const PostModal = (props) => {
   const currentUser = useSelector((state) => state.auth.userInfo);
@@ -26,7 +26,7 @@ const PostModal = (props) => {
     dispatch(addNewPost({ newPost, image: postImage })).then(() => {
       setText("");
       setTimeout(() => {
-        props.onHide();
+        dispatch(postActions.hidePostModal());
         dispatch(getAllPosts());
         dispatch(postActions.removePostPicture());
       }, 2000);

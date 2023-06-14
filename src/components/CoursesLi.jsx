@@ -1,5 +1,3 @@
-import { propTypes } from "react-bootstrap/esm/Image";
-
 const CoursesLi = (props) => {
   return (
     <li className="sidebarLi d-flex pt-3 pb-1">

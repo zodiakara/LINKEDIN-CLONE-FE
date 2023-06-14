@@ -25,6 +25,9 @@ const authSlice = createSlice({
     addAvatar: (state, action) => {
       state.userAvatar = action.payload;
     },
+    removeAvatar: (state, action) => {
+      state.userAvatar = null;
+    },
     logout: (state) => {
       state.userInfo = null;
       state.userAvatar = null;

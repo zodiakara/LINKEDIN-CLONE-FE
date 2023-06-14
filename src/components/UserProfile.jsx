@@ -12,7 +12,7 @@ import RightSideBar from "./RightSideBar";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { getAllExperiences } from "../redux/reducers/userExp.js/experiences";
+import { getAllExperiences } from "../redux/reducers/userExp/experiences";
 
 const UserProfile = () => {
   const params = useParams();
@@ -33,11 +33,7 @@ const UserProfile = () => {
 
   useEffect(() => {
     dispatch(getAllExperiences(params.userId));
-  }, [selectedProfile, selectedProfile.experiences]);
-
-  // useEffect(() => {
-  //   dispatch(fetchProfile(endPoint, options, id, action));
-  // }, [addedExpData]);
+  }, [selectedProfile]);
 
   return (
     <>

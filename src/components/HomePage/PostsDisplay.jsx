@@ -20,7 +20,7 @@ const PostsDisplay = ({ post }) => {
             />
           </div>
           <div>
-            <span className="fs-14 fw-700 mr-2">
+            <span className="fs-14 fw-700 mr-1">
               {post.user.name ? post.user.name : ""}
             </span>
             <span className="fs-14 fw-700 mr-2">

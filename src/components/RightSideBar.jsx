@@ -5,8 +5,7 @@ import ProfileAd from "./ProfileAd";
 import ProfilesLi from "./ProfilesLi";
 import CoursesLi from "./CoursesLi";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import { ADD_ALL_PROFILES, fetchProfile } from "../redux/actions/actions";
+import { useEffect } from "react";
 import { getAllUsers } from "../redux/reducers/users/users";
 
 const RightSideBar = () => {
