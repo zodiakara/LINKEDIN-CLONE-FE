@@ -14,8 +14,8 @@ import { IoMdArrowBack } from "react-icons/io";
 import ExperienceModal from "./ExperienceModal";
 import { useParams } from "react-router-dom";
 import { format, parse, parseISO } from "date-fns";
-import { expActions } from "../redux/reducers/userExp.js/expSlice";
-import { deleteSingleExperience } from "../redux/reducers/userExp.js/experiences";
+import { expActions } from "../redux/reducers/userExp/expSlice";
+import { deleteSingleExperience } from "../redux/reducers/userExp/experiences";
 import { getCurrentUser } from "../redux/reducers/auth/userAuthActions";
 
 const Experience = (props) => {

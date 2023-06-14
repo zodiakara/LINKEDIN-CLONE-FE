@@ -63,7 +63,7 @@ export const updateSingleExperience = createAsyncThunk(
 );
 
 export const deleteSingleExperience = createAsyncThunk(
-  "exp/remove",
+  "exp/delete",
   async ({ userId, expId }) => {
     try {
       const config = {

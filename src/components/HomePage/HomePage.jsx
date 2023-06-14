@@ -4,7 +4,7 @@ import LeftSidebar from "./LeftSidebar";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { getAllPosts } from "../../redux/reducers/posts.js/posts";
+import { getAllPosts } from "../../redux/reducers/posts/posts";
 import { Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
