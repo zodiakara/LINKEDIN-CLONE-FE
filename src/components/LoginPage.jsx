@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../redux/reducers/auth/userAuthActions";
-import { getAllPosts } from "../redux/reducers/posts.js/posts";
+import { getAllPosts } from "../redux/reducers/posts/posts";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
